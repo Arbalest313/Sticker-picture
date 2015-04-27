@@ -52,7 +52,22 @@ class Mark
     imageView.addSubview(self.dashLine)
     
     }
+    
+    func reinit(img : UIImage, x:CGFloat,y:CGFloat){
+        imageView.frame = CGRectMake(x,y, baselength, baselength)
+        imageView.userInteractionEnabled = true
+        resizeFrame(img)
+        imageView.image = img
         
+        scaleButton.frame = CGRect(x: imageView.frame.size.width+imageView.frame.origin.x,y: imageView.frame.origin.y-self.baselength_BTN,width: self.baselength_BTN,height: self.baselength_BTN)
+        scaleButton.setTitle("X", forState: UIControlState.Normal)
+        scaleButton.hidden = false
+        scaleButton.userInteractionEnabled = true
+        
+        //self.drawDashLine()
+        dashLine.frame = CGRectMake(0, 0, imageView.frame.width, imageView.frame.height)
+        imageView.addSubview(self.dashLine)
+    }
     func resizeFrame(img : UIImage)
     {
         var ratio_img = img.size.height / img.size.width
@@ -67,11 +82,18 @@ class Mark
         }
 
     }
+    
+    func dismisDashLine(){
+    
+        UIView.animateWithDuration(0.8, animations: { () -> Void in
+            self.dashLine.alpha = 0
+        })
+    }
     func drawDashLine(){
-
+        
         dashLine.frame =  CGRectMake(0, 0, imageView.frame.width, imageView.frame.height)
- 
-
+        dashLine.alpha = 1
+        dashLine.image = nil
         
         UIGraphicsBeginImageContextWithOptions(dashLine.frame.size, false, 0)
         dashLine.image?.drawInRect(CGRectMake(0, 0, dashLine.frame.size.width, dashLine.frame.size.height))//开始画线

@@ -19,7 +19,7 @@ class ViewController2: UIViewController,UIImagePickerControllerDelegate,UINaviga
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         imgView.frame = CGRectMake(100, 460, 100, 100)
-        img = UIImage(named: "1_1.jpg")!
+        img = UIImage(named: "2_2.jpg")!
         imgView.image = img
         self.view.addSubview(imgView)
 
