@@ -41,7 +41,7 @@
 		1C8516071AE4D2D800673FB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C8516051AE4D2D800673FB3 /* Main.storyboard */; };
 		1C8516091AE4D2D800673FB3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C8516081AE4D2D800673FB3 /* Images.xcassets */; };
 		1C85160C1AE4D2D800673FB3 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1C85160A1AE4D2D800673FB3 /* LaunchScreen.xib */; };
-		1CBCE3AC1AEA193E006770B8 /* MarkPictureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CBCE3AB1AEA193E006770B8 /* MarkPictureView.swift */; };
+		1CBCE3AC1AEA193E006770B8 /* Mark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CBCE3AB1AEA193E006770B8 /* Mark.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,7 +83,7 @@
 		1C85160B1AE4D2D800673FB3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		1C8516161AE4D2D800673FB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C8516171AE4D2D800673FB3 /* picTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = picTests.swift; sourceTree = "<group>"; };
-		1CBCE3AB1AEA193E006770B8 /* MarkPictureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkPictureView.swift; sourceTree = "<group>"; };
+		1CBCE3AB1AEA193E006770B8 /* Mark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mark.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,7 +164,7 @@
 				1C8516011AE4D2D800673FB3 /* AppDelegate.swift */,
 				1C8516031AE4D2D800673FB3 /* ViewController.swift */,
 				1C31E4491AE4DE290054B182 /* modefyPic.swift */,
-				1CBCE3AB1AEA193E006770B8 /* MarkPictureView.swift */,
+				1CBCE3AB1AEA193E006770B8 /* Mark.swift */,
 				1C8516051AE4D2D800673FB3 /* Main.storyboard */,
 				1C8516081AE4D2D800673FB3 /* Images.xcassets */,
 				1C85160A1AE4D2D800673FB3 /* LaunchScreen.xib */,
@@ -299,7 +299,7 @@
 				1C8516041AE4D2D800673FB3 /* ViewController.swift in Sources */,
 				1C8516021AE4D2D800673FB3 /* AppDelegate.swift in Sources */,
 				1C31E44A1AE4DE290054B182 /* modefyPic.swift in Sources */,
-				1CBCE3AC1AEA193E006770B8 /* MarkPictureView.swift in Sources */,
+				1CBCE3AC1AEA193E006770B8 /* Mark.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

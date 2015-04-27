@@ -15,7 +15,6 @@ class ViewController2: UIViewController,UIImagePickerControllerDelegate,UINaviga
     
     var img = UIImage()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

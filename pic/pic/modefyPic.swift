@@ -15,10 +15,9 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
     let baselength = CGFloat(100)
     let basesize = CGSize(width: 100, height: 100)
     var imgView = UIImageView()
-    var imgView2 = UIImageView()
-
     var img = UIImage()
     var subimg = UIImage()
+    
     
     var offset = CGPoint()
     //
@@ -27,10 +26,10 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
     var ratio = CGFloat()
     var ratio_height = CGFloat()
     var lastScale = CGFloat()
-    var base_dist = CGFloat()
     var location2 = CGPoint()
     var last_location = CGPoint()
     
+    var mark : Mark = Mark()
     var scaleButton = UIButton()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,51 +37,45 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
 
         
         imgView.frame = CGRectMake(10, 25, 350, 410)
-        imgView2.frame = CGRectMake(80,50, baselength, baselength)
         img = resizeImage(img, size: imgView.frame.size)
         img =  cropImage(imgView, image: img)
         //img = Toucan(image: img).resize(CGSize(width: imgView.frame.width, height: imgView.frame.height), fitMode: Toucan.Resize.FitMode.Crop).image
         imgView.image = img
         imgView.userInteractionEnabled = true
-        imgView2.userInteractionEnabled = true
+        
+//        mark.imageView.frame = CGRectMake(80,50, baselength, baselength)
+//        mark.imageView.userInteractionEnabled = true
         subimg = UIImage(named: "1.png")!
+        mark = Mark(img: subimg,x: 80,y: 50)
         
         //image resize according to image the width and height ratio
-        var ratio_img = subimg.size.height / subimg.size.width
-        if(ratio_img >= 0){
-            //imgView2.transform = CGAffineTransformScale(imgView2.transform, CGFloat(1), ratio_img)
-            imgView2.frame = CGRect(x: imgView2.frame.origin.x, y: imgView2.frame.origin.y,width: baselength,height: baselength*ratio_img)
-        }
-        else{
-            ratio_img = subimg.size.width / subimg.size.height
-            //mgView2.transform = CGAffineTransformScale(imgView2.transform, ratio_img, CGFloat(1))
-            imgView2.frame = CGRect(x: imgView2.frame.origin.x, y: imgView2.frame.origin.y,width: baselength*ratio_img,height: baselength)
-        }
-
+//        self.resizeFrame(subimg, imageView: mark.imageView)
         
         
-        imgView2.image = subimg
-        imgView.addSubview(imgView2)
+//        mark.imageView.image = subimg
+//        imgView.addSubview(mark.imageView)
+        
         //imgView.contentMode = UIViewContentModeScaleAspectFit
+        imgView.addSubview(mark.imageView)
         self.view.addSubview(imgView)
         
-        println("imageView2 origin \(self.imgView2.frame.origin)")
-        println("imageView2 origin \(self.imgView2.bounds.origin)")
+        println("imageView2 origin \(self.mark.imageView.frame.origin)")
+
         
-        var press_imgView2 : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: "tap_imgView2:")
-        press_imgView2.delegate = self
-        press_imgView2.minimumPressDuration = 0.01
-        //last_location = imgView2.frame.origin
-        //tap_imgView2.addTarget(self, action: "tap_imgView2:", forControlEvents: UIControlEventTouchDown)
-        //self.imgView2.addGestureRecognizer(press_imgView2)
+//        var press_mark.imageView : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: "tap_mark.imageView:")
+//        press_mark.imageView.delegate = self
+//        press_mark.imageView.minimumPressDuration = 0.01
+        //last_location = mark.imageView.frame.origin
+        //tap_mark.imageView.addTarget(self, action: "tap_mark.imageView:", forControlEvents: UIControlEventTouchDown)
+        //mark.imageView.addGestureRecognizer(press_mark.imageView)
         
         
         var pinch :UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "scale:")
-        self.imgView2.addGestureRecognizer(pinch)
+       // mark.imageView.addGestureRecognizer(pinch)
         pinch.delegate = self
         
         var dragging : UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "move:")
-        self.imgView2.addGestureRecognizer(dragging)
+        mark.imageView.addGestureRecognizer(dragging)
         dragging.delegate = self
         
       
@@ -92,21 +85,15 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
         scrollView.backgroundColor = UIColor.whiteColor()
         
     
-        //self.scrollView.addGestureRecognizer(pinch)
-        //self.view.addSubview(scrollView)
-        // Do any additional setup after loading the view.
-        last_location = imgView2.frame.origin
-        scaleButton.frame = CGRect(x: imgView2.frame.size.width+imgView2.frame.origin.x,y: imgView2.frame.origin.y-20,width: 20,height: 20)
-        scaleButton.titleLabel?.text = "X"
-        scaleButton.setTitle("X", forState: UIControlState.Normal)
-        scaleButton.hidden = false
-        scaleButton.userInteractionEnabled = true
+    
+        last_location = mark.imageView.frame.origin
+
         var draggingBTN : UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: "scaleImage:")
-        self.imgView2.addGestureRecognizer(draggingBTN)
+        //mark.imageView.addGestureRecognizer(draggingBTN)
         draggingBTN.delegate = self
-        //scaleButton.addTarget(self, action: "scaleImage:", forControlEvents: UIControlEvents.Touch)
-        scaleButton.addGestureRecognizer(draggingBTN)
-        self.imgView.addSubview(scaleButton)
+        //mark.scaleButton.addTarget(self, action: "scaleImage:", forControlEvents: UIControlEvents.Touch)
+        mark.scaleButton.addGestureRecognizer(draggingBTN)
+        self.imgView.addSubview(mark.scaleButton)
         
         
         for var i = 1 ; i <= photonumbers ; i++ {
@@ -115,9 +102,7 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
             tap.delegate = self
             var imageV :UIImageView = UIImageView(frame:CGRectMake(CGFloat((i-1)*180+4*i), 4, 180, 100))
             var demo_img = UIImage(named: "\(i)_\(i).jpg")
-            //self.scaleimagetoView(imageV, image: demo_img!)
-            //imageV.image = UIImage(named: "\(i)_\(i).jpg")
-            //imageV.image = Toucan(image: demo_img!).resize(CGSize(width: imageV.frame.width, height: imageV.frame.height), fitMode: Toucan.Resize.FitMode.Crop).image
+           
             demo_img = resizeImage(demo_img!, size: imageV.frame.size)
             imageV.image =  cropImage(imageV, image: demo_img!)
             imageV.userInteractionEnabled = true
@@ -138,8 +123,10 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
         
         if(sender.state == UIGestureRecognizerState.Began)
         {
-            location2 = sender.locationInView(imgView2)
-            println("location in imgView2 \(location2) frame \(imgView2.frame)")
+            location2 = sender.locationInView(mark.imageView)
+            println("location in mark.imageView \(location2) frame \(mark.imageView.frame)")
+            self.mark.drawDashLine()
+             self.mark.dashLine.alpha = 1
         }
         var location = sender.locationInView(self.imgView)
         println(location)
@@ -152,8 +139,8 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
         if(location.y < 0)
         {   location.y = 1
         }
-        var maxX = self.imgView.frame.width - self.imgView2.frame.width
-        var maxY = self.imgView.frame.height - self.imgView2.frame.height
+        var maxX = self.imgView.frame.width - mark.imageView.frame.width
+        var maxY = self.imgView.frame.height - mark.imageView.frame.height
         if(location.x > maxX)
         {
             location.x = maxX
@@ -164,25 +151,30 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
         }
         println("moving")
         println(location)
-        imgView2.frame.origin = location
-        var orig = CGPoint(x: location.x+self.imgView2.frame.width, y: location.y-20)
-        scaleButton.frame.origin = orig
+        mark.imageView.frame.origin = location
+        var orig = CGPoint(x: location.x+mark.imageView.frame.width, y: location.y-20)
+        mark.scaleButton.frame.origin = orig
+        
+        if(sender.state == UIGestureRecognizerState.Ended)
+        {
+            UIView.animateWithDuration(0.8, animations: { () -> Void in
+                self.mark.dashLine.alpha = 0
+            })
+        }
        }
     
     func scale(sender: UIPinchGestureRecognizer ){
         
         
         sender.scale = sender.scale - lastScale+1
-        println("\(imgView2.frame.width*sender.scale+self.imgView2.frame.origin.x)")
-        //if(imgView.frame.width > (imgView2.frame.width*sender.scale+self.imgView2.frame.origin.x) && imgView.frame.height > (imgView2.frame.height*sender.scale+self.imgView2.frame.origin.y)
-       //    && imgView2.frame.width > baselength*0.2 && imgView2.frame.height > baselength*0.15
-        //    )
-        if(imgView2.frame.origin.x > 1 && imgView2.frame.origin.y > 1 && imgView.frame.width > (imgView2.frame.width*sender.scale+self.imgView2.frame.origin.x) && imgView.frame.height > (imgView2.frame.height*sender.scale+self.imgView2.frame.origin.y) && imgView2.frame.width > baselength*0.3 && imgView2.frame.height > baselength*0.3)
+        println("\(mark.imageView.frame.width*sender.scale+mark.imageView.frame.origin.x)")
+
+        if(mark.imageView.frame.origin.x > 1 && mark.imageView.frame.origin.y > 1 && imgView.frame.width > (mark.imageView.frame.width*sender.scale+mark.imageView.frame.origin.x) && imgView.frame.height > (mark.imageView.frame.height*sender.scale+mark.imageView.frame.origin.y) && mark.imageView.frame.width > baselength*0.3 && mark.imageView.frame.height > baselength*0.3)
         {
-            //imgView2.transform = CGAffineTransformScale(imgView2.transform, sender.scale, sender.scale)
-            var newx = imgView2.frame.origin.x-( imgView2.frame.width*sender.scale - imgView2.frame.width )
-            var  newy = imgView2.frame.origin.y-( imgView2.frame.height*sender.scale - imgView2.frame.height )
-            imgView2.frame = CGRect(x: newx, y: newy,width: imgView2.frame.width*sender.scale,height: imgView2.frame.height*sender.scale)
+          
+            var newx = mark.imageView.frame.origin.x-( mark.imageView.frame.width*sender.scale - mark.imageView.frame.width )
+            var  newy = mark.imageView.frame.origin.y-( mark.imageView.frame.height*sender.scale - mark.imageView.frame.height )
+            mark.imageView.frame = CGRect(x: newx, y: newy,width: mark.imageView.frame.width*sender.scale,height: mark.imageView.frame.height*sender.scale)
         }
         lastScale = sender.scale
         // 会被多次调用这个方法，所以每次都要重置缩放倍数为原始倍数
@@ -199,26 +191,29 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
         if(sender.state == UIGestureRecognizerState.Began)
         {
             last_location = location
-            var center :CGPoint = CGPoint(x: self.imgView2.frame.width/2+self.imgView2.frame.origin.x, y: self.imgView2.frame.height/2+self.imgView2.frame.origin.y)
-             self.base_dist = CGFloat(sqrt(pow(center.x-self.last_location.x, 2) + pow(center.y-self.last_location.y, 2)))
+            var center :CGPoint = CGPoint(x: mark.imageView.frame.width/2+mark.imageView.frame.origin.x, y: mark.imageView.frame.height/2+mark.imageView.frame.origin.y)
+             mark.base_dist = CGFloat(sqrt(pow(center.x-self.last_location.x, 2) + pow(center.y-self.last_location.y, 2)))
         }
-        var center :CGPoint = CGPoint(x: self.imgView2.frame.width/2+self.imgView2.frame.origin.x, y: self.imgView2.frame.height/2+self.imgView2.frame.origin.y)
+        var center :CGPoint = CGPoint(x: mark.imageView.frame.width/2+mark.imageView.frame.origin.x, y: mark.imageView.frame.height/2+mark.imageView.frame.origin.y)
         var dist = CGFloat(sqrt(pow(location.x-center.x, 2) + pow(location.y-center.y, 2)))
-        println("base distence \(base_dist) distence \(dist)")
+        println("base distence \(mark.base_dist) distence \(dist)")
        
         
-        var scale = CGFloat( dist/base_dist)
+        var scale = CGFloat( dist/mark.base_dist)
          println("\(scale)")
-        if(imgView2.frame.origin.x > 1 && imgView2.frame.origin.y > 1 && imgView.frame.width > (imgView2.frame.width*scale+self.imgView2.frame.origin.x) && imgView.frame.height > (imgView2.frame.height*scale+self.imgView2.frame.origin.y) && imgView2.frame.width > baselength*0.3 && imgView2.frame.height > baselength*0.3){
+        if(mark.imageView.frame.origin.x > 1 && mark.imageView.frame.origin.y > 1 && imgView.frame.width > (mark.imageView.frame.width*scale+mark.imageView.frame.origin.x) && imgView.frame.height > (mark.imageView.frame.height*scale+mark.imageView.frame.origin.y) && mark.imageView.frame.width > baselength*0.3 && mark.imageView.frame.height > baselength*0.3){
             
-        var newx = imgView2.frame.origin.x-( imgView2.frame.width*scale - imgView2.frame.width )
-        var  newy = imgView2.frame.origin.y-( imgView2.frame.height*scale - imgView2.frame.height )
-        imgView2.frame = CGRect(x: newx, y: newy,width: imgView2.frame.width*scale,height: imgView2.frame.height*scale)
-        var newOrigin = CGPoint(x: newx+imgView2.frame.width, y:newy-20)
+        var newx = mark.imageView.frame.origin.x-( mark.imageView.frame.width*scale - mark.imageView.frame.width )
+        var  newy = mark.imageView.frame.origin.y-( mark.imageView.frame.height*scale - mark.imageView.frame.height )
+        mark.imageView.frame = CGRect(x: newx, y: newy,width: mark.imageView.frame.width*scale,height: mark.imageView.frame.height*scale)
+        mark.dashLine.frame = CGRect(x: 0, y: 0,width: mark.imageView.frame.width,height: mark.imageView.frame.height)
+        var newOrigin = CGPoint(x: newx+mark.imageView.frame.width, y:newy-20)
         println("the new origin\(newOrigin)")
         var btn = sender.view as! UIButton
         btn.frame.origin = newOrigin
+        
         }
+        
         //var moving =CGPoint(x: <#CGFloat#>, y: <#CGFloat#>) CGPoint (x:location.x-self.last_location,y: location.y-self.last_location.y)
         // 会被多次调用这个方法，所以每次都要重置缩放倍数为原始倍数
         //sender.scale = 1.0
@@ -231,32 +226,19 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
         println(imgV.tag)
         //subimg = imgV.image!
         subimg = UIImage(named: "\(imgV.tag).png")!
-        //self.scaleimagetoView(imgView2, image: subimg)
-        //CGSizeApplyAffineTransform(basesize, imgView2.transform)
  
-        self.imgView2.frame = CGRectMake(80,50, baselength, baselength)
+        mark.imageView.frame = CGRectMake(80,50, baselength, baselength)
         
         var ratio_img = subimg.size.height / subimg.size.width
-        if(ratio_img >= 0){
-            //imgView2.transform = CGAffineTransformScale(imgView2.transform, CGFloat(1), ratio_img)
-            imgView2.frame = CGRect(x: 80, y: 50,width: baselength,height: baselength*ratio_img)
-        }
-        else{
-            ratio_img = subimg.size.width / subimg.size.height
-            //mgView2.transform = CGAffineTransformScale(imgView2.transform, ratio_img, CGFloat(1))
-            imgView2.frame = CGRect(x: 80, y: 50,width: baselength*ratio_img,height: baselength)
-        }
-        println(self.imgView2.frame)
-        imgView2.image = subimg
-       // imgView2.image = Toucan(image: subimg).resize(CGSize(width: imgView2.frame.width, height: imgView2.frame.height), fitMode: Toucan.Resize.FitMode.Crop).image
-        //println(sender.delegate.
+        self.resizeFrame(subimg, imageView: mark.imageView)
+        println(mark.imageView.frame)
+        mark.imageView.image = subimg
+        mark.dashLine.image = nil
+    
     }
     
     
-    func tap_imgView2(sender: UITapGestureRecognizer ){
-        location2 = sender.locationInView(imgView2)
-        println("location in imgView2 \(location2) frame \(imgView2.frame)")
-    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -270,10 +252,10 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
         imgView3.frame = CGRectMake(10, 65, 350, 400)
         
         
-        ratio = imgView2.frame.size.width / imgView.frame.size.width
-        ratio_height = imgView2.frame.size.height / imgView.frame.size.height
-        var ratio2 = (imgView2.frame.origin.x) / imgView.frame.size.width
-        var ratio3 = (imgView2.frame.origin.y) / imgView.frame.size.height
+        ratio = mark.imageView.frame.size.width / imgView.frame.size.width
+        ratio_height = mark.imageView.frame.size.height / imgView.frame.size.height
+        var ratio2 = (mark.imageView.frame.origin.x) / imgView.frame.size.width
+        var ratio3 = (mark.imageView.frame.origin.y) / imgView.frame.size.height
         println(ratio)
         println(ratio2)
         println(ratio3)
@@ -353,6 +335,22 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
         return image
     
     }
+    
+    func resizeFrame(img : UIImage,imageView : UIImageView)
+    {
+        var ratio_img = img.size.height / img.size.width
+        if(ratio_img >= 0){
+            //imageView.transform = CGAffineTransformScale(imageView.transform, CGFloat(1), ratio_img)
+            imageView.frame = CGRect(x: imageView.frame.origin.x, y: imageView.frame.origin.y,width: baselength,height: baselength*ratio_img)
+        }
+        else{
+            ratio_img = img.size.width / img.size.height
+            //mgView2.transform = CGAffineTransformScale(imageView.transform, ratio_img, CGFloat(1))
+            imageView.frame = CGRect(x: imageView.frame.origin.x, y: imageView.frame.origin.y,width: baselength*ratio_img,height: baselength)
+        }
+        
+    }
+
     /*
     // MARK: - Navigation
 
