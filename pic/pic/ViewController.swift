@@ -10,9 +10,10 @@ import UIKit
 
 class ViewController2: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
 
-    var imgView = UIImageView()
+    //var imgView = UIImageView()
     
     
+    @IBOutlet weak var imgView: UIImageView!
     var img = UIImage()
     
     override func viewDidLoad() {

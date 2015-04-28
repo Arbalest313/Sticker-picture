@@ -14,23 +14,25 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
     let photonumbers = 14
     let baselength = CGFloat(100)
     let basesize = CGSize(width: 100, height: 100)
-    var imgView = UIImageView()
+    //var imgView = UIImageView()
     var img = UIImage()
     var subimg = UIImage()
     
+    @IBOutlet weak var imgView: UIImageView!
     
+    @IBOutlet weak var scrollView: UIScrollView!
     var offset = CGPoint()
     //
-    var scrollView = UIScrollView()
+    //var scrollView = UIScrollView()
     
     var ratio = CGFloat()
     var ratio_height = CGFloat()
     var lastScale = CGFloat()
     var location2 = CGPoint()
     var last_location = CGPoint()
+    var last_angle = CGFloat()
     
     var mark : Mark = Mark()
-    var scaleButton = UIButton()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.blackColor()
@@ -49,7 +51,7 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
         
         
         imgView.addSubview(mark.imageView)
-        self.view.addSubview(imgView)
+      //  self.view.addSubview(imgView)
         
         println("imageView2 origin \(self.mark.imageView.frame.origin)")
 
@@ -59,8 +61,8 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
         dragging.delegate = self
         
       
-        scrollView.contentSize = CGSizeMake(180*CGFloat(self.photonumbers)+CGFloat(self.photonumbers*4),108)
-        scrollView.frame =  CGRectMake(0, 450, 360, 108)
+        scrollView.contentSize = CGSizeMake(180*CGFloat(self.photonumbers)+CGFloat(self.photonumbers*4),self.view.frame.height*0.2)
+        scrollView.frame =  CGRectMake(0, 450, 360, self.scrollView.contentSize.height)
         scrollView.delegate = self
         scrollView.backgroundColor = UIColor.whiteColor()
         
@@ -81,7 +83,9 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
             
             var tap : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "tap:")
             tap.delegate = self
-            var imageV :UIImageView = UIImageView(frame:CGRectMake(CGFloat((i-1)*180+4*i), 4, 180, 100))
+            var imageV :UIImageView = UIImageView(frame:CGRectMake(CGFloat((i-1)*180+4*i), 4, 180, self.scrollView.frame.height-8))
+            println("imageV height \(scrollView.frame.height)")
+                println("imageV height \(scrollView.contentSize.height)")
             var demo_img = UIImage(named: "\(i)_\(i).jpg")
            
             demo_img = resizeImage(demo_img!, size: imageV.frame.size)
@@ -96,7 +100,7 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
             self.scrollView.addSubview(imageV)
         }
         
-        self.view.addSubview(scrollView)
+       // self.view.addSubview(scrollView)
         
     }
     
@@ -161,22 +165,27 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
         {
             lastScale = 1
             
-            
             mark.base_dist = location.x - center.x
             
+            location2 = location
         }
+      
         var dist = location.x - center.x
-        
-//        var y = location.y - center.y
-//        rotation = tan(y/self.mark.base_dist) //tan(y/x)
-//        rotation = atan(rotation)
-        
-        println("base distence \(mark.base_dist) distence \(dist)")
-        
-        println("last scale ratio is \(lastScale)")
         var scale = CGFloat( dist/mark.base_dist)
         scale = scale - lastScale + 1
-        println("scale ratio is \(scale)")
+        //println("base distence \(mark.base_dist) distence \(dist)")
+        
+        var fromAngle = atan2(location2.y-center.y, location2.x-center.x)
+        var toAngle = atan2(location.y-center.y, location.x-center.x)
+        var newAngle = wrapd(self.last_angle + (toAngle - fromAngle), min: 0, max: 2*3.14)
+        var oneInFifty : Int = Int(((toAngle - fromAngle)*50)/(2*3.14))
+        println("Angle : \(newAngle) in50: \(oneInFifty)")
+        
+       //oneInFifty == 0
+        if(true){
+        //println("last scale ratio is \(lastScale)")
+       
+        //println("scale ratio is \(scale)")
 
         var newx = mark.imageView.frame.origin.x-( mark.imageView.frame.width*scale - mark.imageView.frame.width )
         var  newy = mark.imageView.frame.origin.y-( mark.imageView.frame.height*scale - mark.imageView.frame.height )
@@ -194,16 +203,26 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
             
             
         }
-        
-        println(rotation)
+        }else
+        {
+            mark.imageView.transform = CGAffineTransformMakeRotation(newAngle)
+                
+                mark.dashLine.transform = CGAffineTransformMakeRotation(newAngle)
+                
+                mark.scaleButton.transform = CGAffineTransformMakeRotation(newAngle)
+                mark.scaleButton.transform = CGAffineTransformMakeTranslation(location.x, location.y)
+        }
+ //       println(rotation)
     
         
         if(sender.state == UIGestureRecognizerState.Ended)
         {
             self.mark.dismisDashLine()
+            last_angle = newAngle
         }
         
         lastScale = scale
+        
 
     
     }
@@ -228,10 +247,6 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
         scale = scale - lastScale
         println("scale ratio is \(scale)")
         
-        println("w :\(round(mark.imageView.frame.width*scale+mark.imageView.frame.origin.x)) h:\(round(mark.imageView.frame.height*scale+mark.imageView.frame.origin.y))")
-        println("w :\(round(mark.imageView.frame.width*scale)) h:\(round(mark.imageView.frame.height*scale))")
-  
-            
         var newx = mark.imageView.frame.origin.x-( mark.imageView.frame.width*scale - mark.imageView.frame.width )
         var  newy = mark.imageView.frame.origin.y-( mark.imageView.frame.height*scale - mark.imageView.frame.height )
         
@@ -269,7 +284,8 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
     
     @IBAction func saveToAlbum(sender: AnyObject) {
         var imgView3 = UIImageView()
-        imgView3.frame = CGRectMake(10, 65, 350, 400)
+        //imgView3.frame = CGRectMake(10, 65, 350, 400)
+        imgView3.frame = CGRectMake(10, 65, self.imgView.frame.width, self.imgView.frame.height)
         
         
         ratio = mark.imageView.frame.size.width / imgView.frame.size.width
@@ -395,6 +411,12 @@ class modefyPic: UIViewController, UIScrollViewDelegate,UIGestureRecognizerDeleg
         
     }
 
+    
+    func wrapd(val: CGFloat, min : CGFloat, max: CGFloat) -> CGFloat{
+        if(val < min){return (max - (min - val))}
+        if (val > max){return (min - (max - val))}
+        return val
+    }
     /*
     // MARK: - Navigation
 
