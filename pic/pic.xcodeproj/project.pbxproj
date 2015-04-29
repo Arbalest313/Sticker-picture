@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C0ADD701AEF8B1900BD4EBC /* StickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0ADD6F1AEF8B1900BD4EBC /* StickerView.swift */; };
 		1C31E44A1AE4DE290054B182 /* modefyPic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C31E4491AE4DE290054B182 /* modefyPic.swift */; };
 		1C31E47A1AE4EAED0054B182 /* 1_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1C31E45E1AE4EAED0054B182 /* 1_1.jpg */; };
 		1C31E47B1AE4EAED0054B182 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C31E45F1AE4EAED0054B182 /* 1.png */; };
@@ -45,6 +46,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C0ADD6F1AEF8B1900BD4EBC /* StickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerView.swift; sourceTree = "<group>"; };
 		1C31E4491AE4DE290054B182 /* modefyPic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = modefyPic.swift; sourceTree = "<group>"; };
 		1C31E45E1AE4EAED0054B182 /* 1_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1_1.jpg; sourceTree = "<group>"; };
 		1C31E45F1AE4EAED0054B182 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				1C8516031AE4D2D800673FB3 /* ViewController.swift */,
 				1C31E4491AE4DE290054B182 /* modefyPic.swift */,
 				1CBCE3AB1AEA193E006770B8 /* Mark.swift */,
+				1C0ADD6F1AEF8B1900BD4EBC /* StickerView.swift */,
 				1C8516051AE4D2D800673FB3 /* Main.storyboard */,
 				1C8516081AE4D2D800673FB3 /* Images.xcassets */,
 				1C85160A1AE4D2D800673FB3 /* LaunchScreen.xib */,
@@ -297,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C8516041AE4D2D800673FB3 /* ViewController.swift in Sources */,
+				1C0ADD701AEF8B1900BD4EBC /* StickerView.swift in Sources */,
 				1C8516021AE4D2D800673FB3 /* AppDelegate.swift in Sources */,
 				1C31E44A1AE4DE290054B182 /* modefyPic.swift in Sources */,
 				1CBCE3AC1AEA193E006770B8 /* Mark.swift in Sources */,
